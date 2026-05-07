@@ -1,0 +1,27 @@
+{
+  "name": "link-parsser",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint":"eslint .",
+    "lint:fix":"eslint . --fix"
+  },
+  "dependencies": {
+    "@nuxt/eslint": "^1.15.2",
+    "@nuxt/ui": "^4.7.1",
+    "eslint": "^10.3.0",
+    "nuxt": "^4.4.4",
+    "tailwindcss": "^4.2.4",
+    "vue": "^3.5.33",
+    "vue-router": "^5.0.6"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.3"
+  }
+}
