@@ -8,19 +8,26 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint":"eslint .",
-    "lint:fix":"eslint . --fix"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
     "@nuxt/eslint": "^1.15.2",
     "@nuxt/ui": "^4.7.1",
+    "drizzle-orm": "^0.45.2",
     "eslint": "^10.3.0",
     "nuxt": "^4.4.4",
+    "pg": "^8.20.0",
     "tailwindcss": "^4.2.4",
     "vue": "^3.5.33",
     "vue-router": "^5.0.6"
   },
   "devDependencies": {
+    "@types/node": "^25.7.0",
+    "@types/pg": "^8.20.0",
+    "drizzle-kit": "^0.31.10",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.8.3"
   }
