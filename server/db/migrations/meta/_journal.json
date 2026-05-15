@@ -15,6 +15,13 @@
       "when": 1778765778589,
       "tag": "0001_wet_black_panther",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1778852873511,
+      "tag": "0002_awesome_rumiko_fujikawa",
+      "breakpoints": true
     }
   ]
 }
