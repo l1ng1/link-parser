@@ -29,5 +29,9 @@ export const itemsTable = pgTable('items',{
     status:text().notNull().default('pending'),
     createdAt:timestamp().notNull().defaultNow()
 })
+
+
+export type Item = typeof itemsTable.$inferSelect
+export type NewItem = typeof itemsTable.$inferInsert
     
 

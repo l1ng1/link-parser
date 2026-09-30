@@ -7,10 +7,13 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/ui',
     '@nuxt/eslint',
-    'nuxt-auth-utils'
+    'nuxt-auth-utils',
+    '@pinia/nuxt',
+    '@pinia/colada-nuxt'
   ],
   css:['@/assets/css/main.css'],
   runtimeConfig:{
     databaseUrl:process.env.DATABASE_URL
-  }
+  },
+  devServer: { host: '127.0.0.1' }
 })
