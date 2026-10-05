@@ -7,7 +7,7 @@ import {eq} from 'drizzle-orm'
 
 
 const urlSchema = z.object({
-    url:z.string().url()
+    url:z.string().url()    
 })
 
 export default defineEventHandler(async (event)=>{
@@ -24,7 +24,6 @@ export default defineEventHandler(async (event)=>{
     const item = data[0]!;
 
     linkParser(item.url).then(async(obj)=>{
-        try{
             await db.update(itemsTable)
             .set({
                 title:obj.data.title,
@@ -35,14 +34,14 @@ export default defineEventHandler(async (event)=>{
 
             })
             .where(eq(itemsTable.id,item.id))
-        }catch{
-            await db.update(itemsTable)
+        
+    }).catch(async (err)=>{
+        await db.update(itemsTable)
             .set({
                 status:'failed'
             })
             .where(eq(itemsTable.id,item.id))
-            console.error("Url is unreachable")
-        }
+        console.error(err)
     })
 
     return {data:data}

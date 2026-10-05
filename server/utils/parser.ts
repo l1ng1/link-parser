@@ -14,7 +14,8 @@ export default async function linkParser(url:string){
             type:'video'
         }
         }
-        catch{
+        catch(e){
+            console.log("ОШИБКА:",e)
             throw new Error('Url is unreachable')
         }
         
@@ -35,7 +36,8 @@ try{
         type:'article'
     }
 }
-catch{
+catch(e){
+    console.log("ОШИБКА:",e)
     throw new Error('Url is unreachable')
 }
 

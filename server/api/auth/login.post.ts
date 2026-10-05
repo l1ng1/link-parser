@@ -25,18 +25,18 @@ export default defineEventHandler(async(event)=>{
 
     if(user.length===0){
         throw createError({
-            statusCode:404,
-            message:'User email not found'
+            statusCode:401,
+            message:'Password or Email is incorrect'
         })
     }
-    if(user[0]!.passwordHash == null) throw createError({statusCode:404,message:'User registrated with OAuth'})
+    if(user[0]!.passwordHash == null) throw createError({statusCode:401,message:'Password or Email is incorrect'})
     if(await verifyPassword(user[0]!.passwordHash,parsedBody.data!.password)){
         const currentUser = user[0]!;
         await setUserSession(event,{user:{id:currentUser.id,email:currentUser.email}})
         return{success:true}
     }
     throw createError({
-        statusCode:404,
-        message:'Password is incorrect'
+        statusCode:401,
+        message:'Password or Email is incorrect'
     })
 })

@@ -3,19 +3,20 @@
  
 <div>
     <input v-model="inputVal" type="text">
-    <button @click="ipLoadLink">Create article</button>
+    <button :disabled="isLoading" @click="ipLoadLink">Create article</button>
 
-    <p v-if="valError">{{ valError }}</p>
-    <p v-if="error">{{ error.message }}</p>
+    <p v-if="messageError">{{ messageError }}</p>
+    
 </div>
 
 
 </template>
 <script setup lang="ts">
 import {useMutation} from '@pinia/colada'
+import {FetchError} from 'ofetch';
 const inputVal = ref('');
-const valError = ref('')
-const { mutateAsync, error } = useMutation({
+const messageError = ref('')
+const { mutateAsync , isLoading } = useMutation({
   mutation: (link: string) => $fetch('/api/items',{
     method: 'POST',
     body: {
@@ -27,14 +28,20 @@ const { mutateAsync, error } = useMutation({
 const cache = useQueryCache()
 
 const ipLoadLink = async ()=>{
-    if(inputVal.value.length<1) return valError.value="Input value can not be empty"
+    messageError.value = ''
+    if(inputVal.value.length<1) return messageError.value="Input value can not be empty"
     try{
         await mutateAsync(inputVal.value);
+        cache.invalidateQueries({key:['items']})
+        inputVal.value = '';
     }
-    catch{
-        return error
+    catch(e){
+      if(e instanceof FetchError){
+            messageError.value = e.data?.message ?? "Failed to add link";
+        }else{
+            messageError.value = "Failed to add link";
+        }
     }
-    cache.invalidateQueries({key:['items']})
 }
 
 

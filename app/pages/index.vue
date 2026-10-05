@@ -4,10 +4,10 @@
         <select v-model='type'>
             <option value="article">Article</option>
             <option value="video">Video</option>
+            <option value="">All</option>
         </select>
 
         <select v-model.number='limit'>
-            <option value="0">0</option>
             <option value="10">10</option>
             <option value="20">20</option>
         </select>
@@ -19,6 +19,11 @@
                 <ItemCard :item="item"></ItemCard>
             </div>
         </div>
+
+        <AddItemForm></AddItemForm>
+
+
+
     </div>  
 
 
@@ -26,8 +31,8 @@
 <script setup lang="ts">
 import useItems from '../composables/useItems'
 
-const limit = ref(0);
-const type = ref("article")
+const limit = ref(10);
+const type = ref("")
 
 const {data,isLoading,error} = useItems(type,limit);
 
