@@ -11,8 +11,6 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@pinia/colada-nuxt'
   ],
-  // Fonts come from @fontsource packages (bundled with the app), so Nuxt UI doesn't need
-  // to look them up on Google Fonts at build time.
   ui:{ fonts:false },
   css:[
     '@fontsource-variable/literata',
@@ -28,6 +26,9 @@ export default defineNuxtConfig({
   },
   runtimeConfig:{
     databaseUrl:process.env.DATABASE_URL
+  },
+  nitro: {
+  externals: { inline: ['sanitize-html'] },
   },
   devServer: { host: '127.0.0.1' }
 })
