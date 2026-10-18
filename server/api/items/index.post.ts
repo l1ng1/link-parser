@@ -5,6 +5,7 @@ import linkParser from '#server/utils/parser'
 import { assertSafeUrl, UnsafeUrlError } from '#server/utils/safe-fetch'
 import { getYoutubeVideoId } from '#shared/utils/youtube'
 import {eq} from 'drizzle-orm'
+import { waitUntil } from '@vercel/functions'
 
 
 
@@ -34,7 +35,7 @@ export default defineEventHandler(async (event)=>{
 
     const item = data[0]!;
 
-    linkParser(item.url).then(async(obj)=>{
+    const parsing = linkParser(item.url).then(async(obj)=>{
             await db.update(itemsTable)
             .set({
                 title:obj.data.title,
@@ -55,6 +56,10 @@ export default defineEventHandler(async (event)=>{
             })
             .where(eq(itemsTable.id,item.id))
     })
+
+    // On Vercel the function can be stopped right after the response is sent.
+    // waitUntil keeps it alive until parsing finishes. Outside Vercel it does nothing.
+    waitUntil(parsing)
 
     return {data:data}
 
