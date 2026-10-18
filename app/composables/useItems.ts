@@ -11,6 +11,22 @@ export default function useItems(type:Ref<string>,limit:Ref<number>){
                 query:{limit:limit.value,type:type.value}
             })
             return res.data
+        },
+        autoRefetch:(state)=>{
+            if(!state.data) return false
+            for(const i in state.data){
+                if(state.data[i].status == 'pending'){
+                    const isFresh = Date.now() -  new Date(state.data[i].createdAt).getTime() <60_000;
+                    if(isFresh){
+                        return 3000
+                    }
+                    continue
+                }
+                else{
+                    continue
+                }
+            }
+            return false
         }
     })
 

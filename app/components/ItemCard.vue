@@ -7,6 +7,10 @@
         <h2>{{ props.item.title }}</h2>
         <h3>{{ props.item.description }}</h3>
         <p>Type: <span>{{ props.item.type }}</span>  Status: <span>{{ props.item.status }}</span></p>
+
+        <button @click="emit('delete',Number(props.item.id))">Delete</button>
+
+
     </div>
     
 </div>
@@ -17,7 +21,7 @@
 <script setup lang="ts">
 import type {Item} from '#shared/types/index'
 
-
+const emit = defineEmits<{delete:[id:number]}>()
 const props = defineProps<{item:Item}>()
 
 

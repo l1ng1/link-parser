@@ -14,33 +14,35 @@ export default defineOAuthGitHubEventHandler({
             message: 'Email is required. Please make your email public on GitHub.'
             })
         }
-        const isUser = await db.select().from(oauthAccountsTable).where(and(
+        const oauthAccount = await db.select().from(oauthAccountsTable).where(and(
             eq(oauthAccountsTable.providerAccountId,user.id.toString()),
             eq(oauthAccountsTable.provider, 'github')
         ))
 
-        if(isUser.length>0){
-        const userEmail = await db.select().from(usersTable).where(eq(usersTable.id,isUser[0]!.userId))
+        if(oauthAccount.length>0){
+        const userEmail = await db.select().from(usersTable).where(eq(usersTable.id,oauthAccount[0]!.userId))
             await setUserSession(event,{
                 user:{
-                    id:isUser[0]!.id,
+                    id:oauthAccount[0]!.userId,
                     email:userEmail[0]!.email
                 }
             })
+            return sendRedirect(event, '/');
         }
         else{
-            const isUser = await db.select().from(usersTable).where(eq(usersTable.email,user.email));
-            if(isUser.length>0){
+            const existingUser = await db.select().from(usersTable).where(eq(usersTable.email,user.email));
+            if(existingUser.length>0){
                 await db.insert(oauthAccountsTable).values({
-                    userId:isUser[0]!.id,
+                    userId:existingUser[0]!.id,
                     provider:'github',
                     providerAccountId:user.id.toString()
                 })
 
                 await setUserSession(event,{user:{
-                    id:isUser[0]!.id,
-                    email:isUser[0]!.email
+                    id:existingUser[0]!.id,
+                    email:existingUser[0]!.email
                 }})
+                return sendRedirect(event, '/')
 
             }
             else{
@@ -58,12 +60,14 @@ export default defineOAuthGitHubEventHandler({
                     id:data[0]!.id,
                     email:data[0]!.email
                 }})
+                return sendRedirect(event, '/')
 
             }
         }
     },
     onError(event,error){
-        throw error
+        console.error(error)
+        return sendRedirect(event, '/auth')
     }
 
 })

@@ -32,7 +32,7 @@ const ipLoadLink = async ()=>{
     if(inputVal.value.length<1) return messageError.value="Input value can not be empty"
     try{
         await mutateAsync(inputVal.value);
-        cache.invalidateQueries({key:['items']})
+        await cache.invalidateQueries({key:['items']})
         inputVal.value = '';
     }
     catch(e){

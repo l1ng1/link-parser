@@ -19,8 +19,13 @@
             {{ vars[status].textLink }}
         </UButton>
         </p>
-        
+
+
+        <UButton to="/auth/google" external>Google</UButton>
+        <UButton to="/auth/github" external>GitHub</UButton>
     </UForm>
+
+    
 
 </template>
 <script setup lang="ts">
@@ -68,11 +73,10 @@ const onSubmit = async ()=>{
     }
 }
 
-
-
 definePageMeta({
     layout:false,
 })
+
 
 
 
