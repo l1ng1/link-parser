@@ -4,9 +4,6 @@ import {eq,and} from 'drizzle-orm'
 
 
 export default defineOAuthGoogleEventHandler({
-    config: {
-        emailRequired:true
-    },
     async onSuccess(event,{user}){
         
         const oauthAccount = await db.select().from(oauthAccountsTable).where(and(

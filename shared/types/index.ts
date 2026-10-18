@@ -9,5 +9,9 @@ export interface Item{
     type:string | null,
     content:string | null,
     status:string,
-    createdAt:Date
+    // Dates arrive from the API as ISO strings, not Date objects
+    createdAt:string
 }
+
+// What the library list returns: everything except the article text
+export type ItemSummary = Omit<Item, 'content'>
